@@ -1,3 +1,9 @@
+# VSCode
+.vscode/
+
+# Executable
+philo/philo
+
 # Build path
 build/
 
