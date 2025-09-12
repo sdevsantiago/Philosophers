@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdlib_utils.c                                     :+:      :+:    :+:   */
+/*   ctype_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/24 02:31:36 by sede-san          #+#    #+#             */
-/*   Updated: 2025/08/24 03:30:15 by sede-san         ###   ########.fr       */
+/*   Created: 2025/08/24 02:45:23 by sede-san          #+#    #+#             */
+/*   Updated: 2025/09/01 00:40:11 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/* Converts a string into an integer.  */
-int	ft_atoi(
-	const char *str)
+/* Checks if the character is a white-space.  */
+int	ft_isspace(
+	int c)
 {
-	int	minus;
-	int	num;
-
-	minus = 1;
-	num = 0;
-	while (ft_isspace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			minus = -minus;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		num = num * 10 + (*str - '0');
-		str++;
-	}
-	return (num * minus);
+	return ((c >= '\t' && c <= '\r') || c == ' ');
 }
