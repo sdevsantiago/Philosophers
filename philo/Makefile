@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/09/08 17:25:17 by sede-san         ###   ########.fr        #
+#    Updated: 2025/09/25 10:13:30 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,12 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 HEADERS	= -I $(INCLUDE_PATH)
 
-ifeq ($(DEBUG), 1)
-	CFLAGS += -g3 -Og
+ifeq ($(DEBUG), lldb)
+	CFLAGS += -g3
+else ifeq ($(DEBUG), fsanitize-address)
+	CFLAGS += -fsanitize=address -g3
+else ifeq ($(DEBUG), fsanitize-thread)
+	CFLAGS += -fsanitize=thread -g
 endif
 
 MAKE += --no-print-directory
@@ -30,9 +34,8 @@ MAKE += --no-print-directory
 
 SRC_PATH = src
 
-SRC =							\
-		$(SRC_PATH)/main.c		\
-# 		$(SRC_PATH)/routines.c	\
+#! Indicate files before correction
+SRC =	$(shell find $(SRC_PATH) -type f -name "*.c")
 
 INCLUDE_PATH = include
 
@@ -44,7 +47,7 @@ OBJS = $(SRC:$(SRC_PATH)/%.c=$(OBJS_PATH)/%.o)
 $(OBJS_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-	@echo "$< compiled"
+	@$(ECHO) "$< compiled"
 
 # ********************************* Rules ************************************ #
 
@@ -53,16 +56,16 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@echo "$(GREEN)$(EMOJI_CHECK) $(NAME) ready.$(RESET)"
+	@$(ECHO) "$(GREEN)$(EMOJI_CHECK) $(NAME) ready.$(RESET)"
 
 clean:
 	@rm -rf $(OBJS)
-	@echo "$(RED)$(EMOJI_BROOM) Object files removed.$(RESET)"
+	@$(ECHO) "$(RED)$(EMOJI_BROOM) Object files removed.$(RESET)"
 .PHONY: clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(RED)$(EMOJI_BROOM) Binaries removed.$(RESET)"
+	@$(ECHO) "$(RED)$(EMOJI_BROOM) Binaries removed.$(RESET)"
 .PHONY: fclean
 
 re: fclean all
@@ -70,9 +73,11 @@ re: fclean all
 
 # ********************************* Libraries ******************************** #
 
-LIBS = -lpthread
+LIBS = -lpthread lib/Libft/libft.a #! Libft is here for testing purposes, remove before correction
 
 # ***************************** Style variables ****************************** #
+
+ECHO = echo -e
 
 # Define color codes
 RED = \033[0;31m

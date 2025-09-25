@@ -1,43 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   conversion_utils.c                                 :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/01 19:13:41 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/01 19:15:09 by sede-san         ###   ########.fr       */
+/*   Created: 2025/02/05 10:44:04 by sede-san          #+#    #+#             */
+/*   Updated: 2025/02/06 00:18:26 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "libft.h"
 
-int	ft_atoi(
-	const char *str)
-{
-	int	minus;
-	int	num;
-
-	minus = 1;
-	num = 0;
-	while (ft_isspace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			minus = -minus;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		num = num * 10 + (*str - '0');
-		str++;
-	}
-	return (num * minus);
-}
-
-long	ft_atol(
-	const char *str)
+/* Converts a string into an integer.  */
+long	ft_atol(const char *str)
 {
 	int		minus;
 	long	num;
