@@ -41,10 +41,16 @@ For detailed info, refer to this project [subject](docs/en.subject.pdf).
 
 ### Install prerequisites
 
-- Debian/Ubuntu
+- APT
 
   ```bash
   sudo apt install build-essential
+  ```
+
+- Pacman
+
+  ```bash
+  sudo pacman -Sy base-devel
   ```
 
 ## 🔧 Build
@@ -84,6 +90,10 @@ For detailed info, refer to this project [subject](docs/en.subject.pdf).
 ### Basic Usage
 
 *Not available yet.*
+
+<!--
+timeout 60s ./philo -> executes ./philo for 60s
+ -->
 
 ## 📏 Norminette
 
