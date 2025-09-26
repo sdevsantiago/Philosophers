@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/09/25 10:13:30 by sede-san         ###   ########.fr        #
+#    Updated: 2025/09/25 17:53:16 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ HEADERS	= -I $(INCLUDE_PATH)
 
 ifeq ($(DEBUG), lldb)
 	CFLAGS += -g3
-else ifeq ($(DEBUG), fsanitize-address)
+else ifeq ($(DEBUG), address)
 	CFLAGS += -fsanitize=address -g3
-else ifeq ($(DEBUG), fsanitize-thread)
+else ifeq ($(DEBUG), thread)
 	CFLAGS += -fsanitize=thread -g
 endif
 
