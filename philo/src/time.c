@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/26 02:45:08 by sede-san         ###   ########.fr       */
+/*   Created: 2025/09/25 12:20:17 by sede-san          #+#    #+#             */
+/*   Updated: 2025/09/26 02:02:29 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(
-	int argc,
-	char const *argv[])
+static long	micros_to_ms(struct timeval *time);
+
+long	get_current_time_ms(void)
 {
-	(void)argc;
-	(void)argv;
+	struct timeval	time;
 
-	t_table	table;
+	gettimeofday(&time, NULL);
+	return (micros_to_ms(&time));
+}
 
-	if (!init_table(&table))
-	{
-		write(STDERR_FILENO, "failed to initialize table\n", 27);
-		return (EXIT_FAILURE);
-	}
-	if (!init_threads(&table, philo_routine))
-	{
-		write(STDERR_FILENO, "failed to run threads\n", 22);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+static long	micros_to_ms(
+	struct timeval *time)
+{
+	return ((time->tv_sec * 1000) + (time->tv_usec / 1000));
 }

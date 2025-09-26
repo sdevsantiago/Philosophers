@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/26 02:45:08 by sede-san         ###   ########.fr       */
+/*   Created: 2025/09/25 14:52:21 by sede-san          #+#    #+#             */
+/*   Updated: 2025/09/26 01:59:27 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(
-	int argc,
-	char const *argv[])
+void	clear_forks(
+	size_t philos_count,
+	pthread_mutex_t *forks)
 {
-	(void)argc;
-	(void)argv;
-
-	t_table	table;
-
-	if (!init_table(&table))
-	{
-		write(STDERR_FILENO, "failed to initialize table\n", 27);
-		return (EXIT_FAILURE);
-	}
-	if (!init_threads(&table, philo_routine))
-	{
-		write(STDERR_FILENO, "failed to run threads\n", 22);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	while (--philos_count)
+		pthread_mutex_destroy(&forks[philos_count]);
+	free(forks);
 }

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/25 09:44:10 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/26 02:08:48 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,27 @@ static void	routine_eat(
 	// avoid lock order inversion
 	if (philo->id % 2 == 0) // philo's id is even
 	{
-		pthread_mutex_lock(&philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->forks[LEFT_FORK]);
+		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
 	}
 	else // philo's id is odd
 	{
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(&philo->left_fork);
+		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
+		pthread_mutex_lock(philo->forks[LEFT_FORK]);
 	}
 	write_action(philo, "has taken a fork");
 	write_action(philo, "has taken a fork");
 	write_action(philo, "is eating");
-	usleep(10);
-	pthread_mutex_unlock(&philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	usleep(philo->time_to_eat);
+	pthread_mutex_unlock(philo->forks[LEFT_FORK]);
+	pthread_mutex_unlock(philo->forks[RIGHT_FORK]);
 }
 
 static void	routine_sleep(
 	t_philo *philo)
 {
 	write_action(philo, "is sleeping");
-	usleep(100);
+	usleep(philo->time_to_sleep);
 }
 
 static void	routine_think(
