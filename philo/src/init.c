@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:13:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/26 02:40:47 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/26 20:32:42 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@ int init_table(t_table *table)
 {
 	size_t	i;
 
-	table->philos_count = 20000;
+	table->philos_count = 10;
 	table->time_to_die = 1000;
 	table->time_to_eat = 10;
 	table->time_to_sleep = 100;
 	pthread_mutex_init(&table->write_mutex, NULL);
 	table->forks = init_forks(table->philos_count);
-	table->philos = init_philos(table, -1);
+	table->philos = init_philos(table, 100);
 	if (table->philos)
 	{
 		i = -1;
 		while(++i < table->philos_count)
 			table->philos[i].write_mutex = &table->write_mutex;
 	}
-	return (table->forks && table->philos) ? 1 : 0;
+	if (!table->forks || !table->philos)
+		return (0);
+	return (1);
 }
 
 int	init_threads(
@@ -42,6 +44,7 @@ int	init_threads(
 	size_t	i;
 
 	i = -1;
+	table->timestamp_start = get_current_timestamp_ms();
 	while (++i < table->philos_count)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]) != 0)
@@ -77,7 +80,7 @@ static pthread_mutex_t	*init_forks(
 		memset(&forks[i], 0, sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
-			clear_forks(i, forks);
+			// clear_table(NULL);
 			write(STDERR_FILENO, "pthread_mutex_init() error\n", 27);
 			return (NULL);
 		}
@@ -106,9 +109,10 @@ static t_philo	*init_philos(
 	{
 		memset(&philos[i], 0, sizeof(t_philo));
 		philos[i].id = i + 1;
-		philos[i].time_to_die = table->time_to_die;
-		philos[i].time_to_eat = table->time_to_eat;
-		philos[i].time_to_sleep = table->time_to_sleep;
+		philos[i].timestamp_start = &table->timestamp_start; // points to it but does not have value yet
+		philos[i].time_to_die = &table->time_to_die;
+		philos[i].time_to_eat = &table->time_to_eat;
+		philos[i].time_to_sleep = &table->time_to_sleep;
 		philos[i].meals_count = meals_count;
 		philos[i].write_mutex = &table->write_mutex;
 		philos[i].forks[LEFT_FORK] = &table->forks[i];
