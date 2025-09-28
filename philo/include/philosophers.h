@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/26 20:29:54 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/28 19:27:27 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,32 @@ typedef struct s_philo
 /*                                 Functions                                  */
 /******************************************************************************/
 
-// clear.c
+// forks.c
 
-void	clear_table(t_table *table);
+pthread_mutex_t	*init_forks(size_t philos_count);
+void			clear_forks(pthread_mutex_t *forks, size_t philos_count);
 
-// init.c
+// philos.c
 
-int			init_table(t_table *table);
-int			init_threads(t_table *table, t_routine_func routine);
+t_philo			*init_philos(t_table *table, long meals_count);
+void			clear_philos(t_philo *philos);
 
 // routines.c
 
-void		*philo_routine(void *arg);
+void			*philo_routine(void *arg);
+
+// table.c
+
+int				init_table(t_table *table);
+void			clear_table(t_table *table);
+
+// threads.c
+
+int				init_threads(t_table *table, t_routine_func routine);
 
 // time.c
 
-t_mseconds	get_current_timestamp_ms(void);
-int			msleep(t_mseconds msec);
+t_mseconds		get_current_timestamp_ms(void);
+int				msleep(t_mseconds msec);
 
 #endif /* PHILOSOPHERS_H */
