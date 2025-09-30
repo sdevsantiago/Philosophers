@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 10:07:49 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 13:49:59 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_table
 {
 	size_t			philos_count;
 	t_philo			*philos;
+	t_philo			*dead_philo;
 	pthread_mutex_t	*forks;
 	t_mseconds		timestamp_start;
 	t_mseconds		time_to_die;	// TODO change this three into an array
@@ -61,6 +62,7 @@ typedef struct s_philo
 	t_mseconds		*time_to_sleep;	// TODO change this three into an array
 	long			meals_count;
 	pthread_mutex_t	*write_mutex;
+	t_philo			*dead_philo;
 }	t_philo;
 
 /******************************************************************************/

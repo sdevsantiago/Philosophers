@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 09:54:55 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:09:42 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	init_threads(
 	table->timestamp_start = get_current_timestamp_ms();
 	while (++i < table->philos_count)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]) != 0) //! thread leak
+		if (pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]) != 0)
 		{
 			write(STDERR_FILENO, "pthread_create() error\n", 23);
 			return (0);

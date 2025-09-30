@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 09:32:28 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:09:58 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*philo_routine(
 
 	philo = (t_philo *)arg;
 	philo->timestamp_death = *philo->timestamp_start + *philo->time_to_die;
-	while (1)
+	while (!philo->dead_philo)
 	{
 		if (routine_eat(philo) == PHILO_STARVES)
 			break ;
@@ -38,9 +38,9 @@ void	*philo_routine(
 static int	routine_eat(
 	t_philo *philo)
 {
-	if (philo->forks[LEFT_FORK] == philo->forks[RIGHT_FORK]) //! heap use after free
+	if (philo->forks[LEFT_FORK] == philo->forks[RIGHT_FORK])
 		msleep(*philo->time_to_die);
-	if (get_current_timestamp_ms() >= philo->timestamp_death) //! heap use after free
+	if (get_current_timestamp_ms() >= philo->timestamp_death)
 		return (PHILO_STARVES);
 	if (philo->id % 2 == 0)
 	{

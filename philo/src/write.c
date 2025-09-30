@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:41:11 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 09:51:38 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:09:37 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	write_action(
 	char	*timestamp;
 	char	*id;
 
-	timestamp = ft_ltoa(get_current_timestamp_ms() - *philo->timestamp_start); //! heap use after free
-	id = ft_uitoa(philo->id); //! heap use after free
+	timestamp = ft_ltoa(get_current_timestamp_ms() - *philo->timestamp_start);
+	id = ft_uitoa(philo->id);
 	msg = ft_strnjoin(6, timestamp, " ", id, " ", action, "\n");
 	pthread_mutex_lock(philo->write_mutex);
 	ft_putstr(msg);
