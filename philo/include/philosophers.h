@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/28 19:27:27 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 10:07:49 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@
 # include <sys/time.h>	// gettimeofday()
 # include <unistd.h>	// write(), usleep()
 
-
 /******************************************************************************/
 /*                           Structures & Data Types                          */
 /******************************************************************************/
 
-typedef unsigned int t_mseconds;
+typedef unsigned int	t_mseconds;
 
 typedef struct s_table	t_table;
 typedef struct s_philo	t_philo;
 
-typedef void *(*t_routine_func)(void *);
+typedef void			*(*t_routine_func)(void *);
 
 typedef struct s_table
 {
@@ -47,8 +46,8 @@ typedef struct s_table
 	pthread_mutex_t	write_mutex;
 }	t_table;
 
-# define LEFT_FORK 0
-# define RIGHT_FORK 1
+# define LEFT_FORK	0
+# define RIGHT_FORK	1
 
 typedef struct s_philo
 {
@@ -63,7 +62,6 @@ typedef struct s_philo
 	long			meals_count;
 	pthread_mutex_t	*write_mutex;
 }	t_philo;
-
 
 /******************************************************************************/
 /*                                 Functions                                  */
@@ -81,11 +79,14 @@ void			clear_philos(t_philo *philos);
 
 // routines.c
 
+# define PHILO_STARVES	0
+# define PHILO_LIVES	1
+
 void			*philo_routine(void *arg);
 
 // table.c
 
-int				init_table(t_table *table);
+int				init_table(t_table *table, size_t philos_count, t_mseconds time_to_die, t_mseconds time_to_eat, t_mseconds time_to_sleep, long meals_count);
 void			clear_table(t_table *table);
 
 // threads.c
@@ -96,5 +97,9 @@ int				init_threads(t_table *table, t_routine_func routine);
 
 t_mseconds		get_current_timestamp_ms(void);
 int				msleep(t_mseconds msec);
+
+// write.c
+
+void			write_action(t_philo *philo, char const *action);
 
 #endif /* PHILOSOPHERS_H */

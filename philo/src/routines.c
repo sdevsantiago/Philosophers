@@ -6,16 +6,15 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/26 20:27:03 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 09:32:28 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	routine_eat(t_philo *philo);
+static int	routine_eat(t_philo *philo);
 static void	routine_sleep(t_philo *philo);
 static void	routine_think(t_philo *philo);
-static void	write_action(t_philo *philo, char const *action);
 
 void	*philo_routine(
 	void *arg)
@@ -23,39 +22,32 @@ void	*philo_routine(
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	// init specific timestamps
 	philo->timestamp_death = *philo->timestamp_start + *philo->time_to_die;
-	// main philosopher loop
 	while (1)
 	{
-		routine_eat(philo);
-		if (!philo->meals_count)
-		{
-			// write_action(philo, "has finished"); //? Here for debugging purposes
+		if (routine_eat(philo) == PHILO_STARVES)
+			break ;
+		else if (!philo->meals_count)
 			return (NULL);
-		}
 		routine_sleep(philo);
 		routine_think(philo);
 	}
-	return (NULL);
+	return (philo);
 }
 
-static void	routine_eat(
+static int	routine_eat(
 	t_philo *philo)
 {
-	// check if philo has starved to death
-	if (get_current_timestamp_ms() >= philo->timestamp_death)
-	{
-		write_action(philo, "has died");
-		exit(EXIT_FAILURE); //! illegal function
-	}
-	// avoid lock order inversion
-	if (philo->id % 2 == 0) // philo's id is even
+	if (philo->forks[LEFT_FORK] == philo->forks[RIGHT_FORK]) //! heap use after free
+		msleep(*philo->time_to_die);
+	if (get_current_timestamp_ms() >= philo->timestamp_death) //! heap use after free
+		return (PHILO_STARVES);
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->forks[LEFT_FORK]);
 		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
 	}
-	else // philo's id is odd
+	else
 	{
 		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
 		pthread_mutex_lock(philo->forks[LEFT_FORK]);
@@ -69,7 +61,7 @@ static void	routine_eat(
 	pthread_mutex_unlock(philo->forks[RIGHT_FORK]);
 	if (philo->meals_count != -1)
 		philo->meals_count--;
-	fprintf(stderr, "DEBUG: philo %ld meals left -> %ld\n", philo->id, philo->meals_count);
+	return (PHILO_LIVES);
 }
 
 static void	routine_sleep(
@@ -83,23 +75,4 @@ static void	routine_think(
 	t_philo *philo)
 {
 	write_action(philo, "is thinking");
-}
-
-static void	write_action(
-	t_philo *philo,
-	char const *action)
-{
-	char	*msg;
-	char	*timestamp;
-	char	*id;
-
-	timestamp = ft_ltoa(get_current_timestamp_ms() - *philo->timestamp_start);
-	id = ft_uitoa(philo->id);
-	msg = ft_strnjoin(6, timestamp, " " , id, " ", action, "\n");
-	pthread_mutex_lock(philo->write_mutex);
-	ft_putstr(msg);
-	pthread_mutex_unlock(philo->write_mutex);
-	free(timestamp);
-	free(id);
-	free(msg);
 }

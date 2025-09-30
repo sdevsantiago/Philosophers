@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/28 19:10:56 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 09:50:57 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_philo	*init_philos(
 		philos[i].meals_count = meals_count;
 		philos[i].write_mutex = &table->write_mutex;
 		philos[i].forks[LEFT_FORK] = &table->forks[i];
-		philos[i].forks[RIGHT_FORK] =
-			&table->forks[(i + table->philos_count - 1) % table->philos_count];
+		philos[i].forks[RIGHT_FORK]
+			= &table->forks[(i + table->philos_count - 1) % table->philos_count];
 	}
 	return (philos);
 }
@@ -48,5 +48,6 @@ t_philo	*init_philos(
 void	clear_philos(
 	t_philo *philos)
 {
-	free(philos);
+	free(philos); //! data race
+	// philos = NULL;
 }
