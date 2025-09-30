@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/09/30 20:43:09 by sede-san         ###   ########.fr        #
+#    Updated: 2025/09/30 21:35:35 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,14 @@ CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 HEADERS	= -I $(INCLUDE_PATH)
 
-ifeq ($(DEBUG), lldb)
+ifeq ($(DEBUG), lldb) # debug with LLDB
 	CFLAGS += -g3
-else ifeq ($(DEBUG), address)
+else ifeq ($(DEBUG), address) # use AdressSanitize
 	CFLAGS += -fsanitize=address -g3
-else ifeq ($(DEBUG), thread)
+else ifeq ($(DEBUG), thread) # use ThreadSanitize
 	CFLAGS += -fsanitize=thread -g
+else # apply optimization flags if no debugging is being done
+	CFLAGS += -O3
 endif
 
 MAKE += --no-print-directory
