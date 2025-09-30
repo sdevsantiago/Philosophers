@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 13:49:59 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/09/30 18:30:05 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void			clear_philos(t_philo *philos);
 
 // routines.c
 
-# define PHILO_STARVES	0
+# define PHILO_DIES		0
 # define PHILO_LIVES	1
 
 void			*philo_routine(void *arg);
