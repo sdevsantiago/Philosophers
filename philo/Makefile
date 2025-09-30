@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/09/30 14:07:24 by sede-san         ###   ########.fr        #
+#    Updated: 2025/09/30 20:43:09 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,12 @@ MAKE += --no-print-directory
 
 # ****************************** Source files ******************************** #
 
-SRC_PATH = src
+SRC_PATH =		src
 
 #! Indicate files before correction
-SRC =	$(shell find $(SRC_PATH) -type f -name "*.c")
+SRC =			$(shell find $(SRC_PATH) -type f -name "*.c")
 
-INCLUDE_PATH = include
+INCLUDE_PATH =	include
 
 # ****************************** Object files ******************************** #
 
@@ -47,7 +47,7 @@ OBJS = $(SRC:$(SRC_PATH)/%.c=$(OBJS_PATH)/%.o)
 $(OBJS_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-	@$(ECHO) "$< compiled"
+	@$(PRINTF) "$< compiled"
 
 # ********************************* Rules ************************************ #
 
@@ -56,16 +56,16 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@$(ECHO) "$(GREEN)$(EMOJI_CHECK) $(NAME) ready.$(RESET)"
+	@$(PRINTF) "$(GREEN)$(EMOJI_CHECK) $(NAME) ready.$(RESET)"
 
 clean:
 	@rm -rf $(OBJS)
-	@$(ECHO) "$(RED)$(EMOJI_BROOM) Object files removed.$(RESET)"
+	@$(PRINTF) "$(RED)$(EMOJI_BROOM) Object files removed.$(RESET)"
 .PHONY: clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@$(ECHO) "$(RED)$(EMOJI_BROOM) Binaries removed.$(RESET)"
+	@$(PRINTF) "$(RED)$(EMOJI_BROOM) Binaries removed.$(RESET)"
 .PHONY: fclean
 
 re: fclean all
@@ -77,7 +77,7 @@ LIBS = -lpthread lib/Libft/libft.a #! Libft is here for testing purposes, remove
 
 # ***************************** Style variables ****************************** #
 
-ECHO = echo -e
+PRINTF =	printf "%b\n"
 
 # Define color codes
 RED = \033[0;31m
