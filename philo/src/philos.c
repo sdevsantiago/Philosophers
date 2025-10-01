@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 14:10:20 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:49:26 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ t_philo	*init_philos(
 		return (NULL);
 	philos = (t_philo *)malloc(table->philos_count * sizeof(t_philo));
 	if (!philos)
-	{
-		write(STDERR_FILENO, "malloc() error\n", 15);
 		return (NULL);
-	}
 	i = -1;
 	while (++i < table->philos_count)
 	{

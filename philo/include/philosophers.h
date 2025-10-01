@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 18:30:05 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/01 21:23:51 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@
 /******************************************************************************/
 
 typedef unsigned int	t_mseconds;
+typedef unsigned int	t_useconds;
 
 typedef struct s_table	t_table;
 typedef struct s_philo	t_philo;
 
 typedef void			*(*t_routine_func)(void *);
+
+# define INFINITE_MEALS	-1
 
 typedef struct s_table
 {

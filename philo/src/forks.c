@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:21 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/28 19:09:21 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:29:43 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,14 @@ pthread_mutex_t	*init_forks(
 	if (!forks)
 		return (NULL);
 	i = -1;
-	while (i < philos_count)
+	memset(forks, 0, philos_count * sizeof(pthread_mutex_t));
+	while (++i < philos_count)
 	{
-		memset(&forks[i], 0, sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
-			// clear_table(NULL);
-			write(STDERR_FILENO, "pthread_mutex_init() error\n", 27);
+			clear_forks(forks, i);
 			return (NULL);
 		}
-		++i;
 	}
 	return (forks);
 }

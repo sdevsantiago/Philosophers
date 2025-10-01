@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:55 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 14:09:49 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:14:38 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,34 @@ int	init_table(
 {
 	size_t	i;
 
+	memset(table, 0, sizeof(t_table));
 	table->philos_count = philos_count;
 	table->time_to_die = time_to_die;
 	table->time_to_eat = time_to_eat;
 	table->time_to_sleep = time_to_sleep;
-	pthread_mutex_init(&table->write_mutex, NULL);
+	if (pthread_mutex_init(&table->write_mutex, NULL) != 0)
+		return (0);
 	table->forks = init_forks(table->philos_count);
 	table->dead_philo = NULL;
 	table->philos = init_philos(table, meals_count);
-	if (table->philos)
+	if (!table->philos) // no need to check if forks exist
 	{
-		i = -1;
-		while (++i < table->philos_count)
-			table->philos[i].write_mutex = &table->write_mutex;
-	}
-	if (!table->forks || !table->philos)
+		clear_table(table);
 		return (0);
+	}
+	i = -1;
+	while (++i < table->philos_count)
+		table->philos[i].write_mutex = &table->write_mutex;
 	return (1);
 }
 
 void	clear_table(
 	t_table *table)
 {
-	clear_forks(table->forks, table->philos_count);
-	clear_philos(table->philos);
+	if (table->forks)
+		clear_forks(table->forks, table->philos_count);
+	if (table->philos)
+		clear_philos(table->philos);
 	pthread_mutex_destroy(&table->write_mutex);
 	memset(table, 0, sizeof(t_table));
 }

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/09/30 14:09:42 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/01 21:40:00 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	init_threads(
 	table->timestamp_start = get_current_timestamp_ms();
 	while (++i < table->philos_count)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, routine, &table->philos[i]) != 0)
+		if (pthread_create(&table->philos[i].thread, NULL,
+			routine, &table->philos[i]) != 0)
 		{
-			write(STDERR_FILENO, "pthread_create() error\n", 23);
+			clear_table(table);
 			return (0);
 		}
 	}
@@ -36,23 +37,22 @@ int	init_threads(
 static int	join_threads(
 	t_table *table)
 {
-	size_t	i;
 	t_philo	*dead_philo;
+	size_t	i;
 
-	i = -1;
 	dead_philo = NULL;
-	while (++i < table->philos_count && !dead_philo)
+	i = -1;
+	while (++i < table->philos_count)
 	{
 		if (pthread_join(table->philos[i].thread, (void **)&dead_philo) != 0)
-		{
-			write(STDERR_FILENO, "pthread_join() error\n", 21);
 			return (0);
-		}
+		if (!table->dead_philo && dead_philo) //? log first death only
+			table->dead_philo = dead_philo;
 	}
-	if (dead_philo)
+	if (table->dead_philo)
 	{
-		msleep(1);
-		write_action(dead_philo, "has died");
+		printf("%u\n", get_current_timestamp_ms() - dead_philo->timestamp_death);
+		write_action(table->dead_philo, "has died");
 	}
 	return (1);
 }
