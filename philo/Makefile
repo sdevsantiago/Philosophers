@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/09/30 21:35:35 by sede-san         ###   ########.fr        #
+#    Updated: 2025/10/03 01:33:03 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ $(NAME): $(OBJS)
 	@$(PRINTF) "$(GREEN)$(EMOJI_CHECK) $(NAME) ready.$(RESET)"
 
 clean:
-	@rm -rf $(OBJS)
+	@rm -rf $(OBJS_PATH)
 	@$(PRINTF) "$(RED)$(EMOJI_BROOM) Object files removed.$(RESET)"
 .PHONY: clean
 
