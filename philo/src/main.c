@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 21:22:41 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/02 23:20:07 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static int	check_args(
 	if (argc < 5 || argc > 6)
 	{
 		if (argc < 5)
-			printf("%s\n", "Missing arguments");
+			printf("Invalid usage: %s\n", "missing arguments");
 		else
-			printf("%s\n", "Too many arguments");
+			printf("Invalid usage: %s\n", "too many arguments");
 		printf("Usage: ./%s %s %s %s %s %s\n", "philo",
 			"<number_of_philosophers>", "<time_to_die>", "<time_to_eat>",
 			"<time_to_sleep>", "[number_of_times_each_philosopher_must_eat]");
@@ -63,7 +63,7 @@ static int	check_args(
 	else if (!*argv[1] || !*argv[2] || !*argv[3] || !*argv[4]
 		|| (argv[5] && !*argv[5]))
 	{
-		printf("%s\n", "Empty arguments");
+		printf("Invalid usage: %s\n", "empty arguments");
 		return (0);
 	}
 	else if ((!ft_strisnum(argv[1]) || ft_strchr(argv[1], '-') || ft_atol(argv[1]) < 1)
@@ -72,7 +72,7 @@ static int	check_args(
 		|| (!ft_strisnum(argv[4]) || ft_strchr(argv[4], '-') || ft_atoi(argv[4]) < 1)
 		|| (argv[5] && (!ft_strisnum(argv[5]) || ft_strchr(argv[5], '-') || ft_atol(argv[5]) < 1)))
 	{
-		printf("%s\n", "Arguments can't be negative or zero");
+		printf("Invalid usage: %s\n", "arguments can't be negative or zero");
 		return (0);
 	}
 	return (1);
