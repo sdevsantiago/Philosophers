@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:21 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 19:29:43 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/03 08:43:09 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,26 @@ void	clear_forks(
 	while (--philos_count)
 		pthread_mutex_destroy(&forks[philos_count]);
 	free(forks);
+}
+
+void	take_forks(
+	t_philo *philo)
+{
+	if (philo->id % 2)
+	{
+		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
+		pthread_mutex_lock(philo->forks[LEFT_FORK]);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->forks[LEFT_FORK]);
+		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
+	}
+}
+
+void	drops_forks(
+	t_philo *philo)
+{
+	pthread_mutex_unlock(philo->forks[LEFT_FORK]);
+	pthread_mutex_unlock(philo->forks[RIGHT_FORK]);
 }

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 21:23:51 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/03 08:31:56 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_table
 	t_mseconds		time_to_eat;	// TODO change this three into an array
 	t_mseconds		time_to_sleep;	// TODO change this three into an array
 	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	death_mutex;
 }	t_table;
 
 # define LEFT_FORK	0
@@ -55,7 +56,7 @@ typedef struct s_table
 
 typedef struct s_philo
 {
-	unsigned long	id;
+	unsigned int	id;
 	pthread_t		thread;
 	pthread_mutex_t	*forks[2];
 	t_mseconds		*timestamp_start;
@@ -65,7 +66,8 @@ typedef struct s_philo
 	t_mseconds		*time_to_sleep;	// TODO change this three into an array
 	long			meals_count;
 	pthread_mutex_t	*write_mutex;
-	t_philo			*dead_philo;
+	pthread_mutex_t	*death_mutex;
+	t_philo			**dead_philo;
 }	t_philo;
 
 /******************************************************************************/
@@ -76,6 +78,8 @@ typedef struct s_philo
 
 pthread_mutex_t	*init_forks(size_t philos_count);
 void			clear_forks(pthread_mutex_t *forks, size_t philos_count);
+void			take_forks(t_philo *philo);
+void			drops_forks(t_philo *philo);
 
 // philos.c
 
@@ -101,7 +105,7 @@ int				init_threads(t_table *table, t_routine_func routine);
 // time.c
 
 t_mseconds		get_current_timestamp_ms(void);
-int				msleep(t_mseconds msec);
+int				msleep(t_philo *philo, t_mseconds msec);
 
 // write.c
 

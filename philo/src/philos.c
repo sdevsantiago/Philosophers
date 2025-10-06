@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 17:49:26 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:03:31 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_philo	*init_philos(
 	i = -1;
 	while (++i < table->philos_count)
 	{
-		memset(&philos[i], 0, sizeof(t_philo));
 		philos[i].id = i + 1;
 		philos[i].timestamp_start = &table->timestamp_start;
 		philos[i].time_to_die = &table->time_to_die;
@@ -35,10 +34,11 @@ t_philo	*init_philos(
 		philos[i].time_to_sleep = &table->time_to_sleep;
 		philos[i].meals_count = meals_count;
 		philos[i].write_mutex = &table->write_mutex;
+		philos[i].death_mutex = &table->death_mutex;
 		philos[i].forks[LEFT_FORK] = &table->forks[i];
 		philos[i].forks[RIGHT_FORK]
 			= &table->forks[(i + table->philos_count - 1) % table->philos_count];
-		philos[i].dead_philo = table->dead_philo;
+		philos[i].dead_philo = &table->dead_philo;
 	}
 	return (philos);
 }

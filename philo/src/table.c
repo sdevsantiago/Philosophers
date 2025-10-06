@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:55 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 19:14:38 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/03 02:49:09 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ int	init_table(
 	t_mseconds time_to_sleep,
 	long meals_count)
 {
-	size_t	i;
-
-	memset(table, 0, sizeof(t_table));
 	table->philos_count = philos_count;
 	table->time_to_die = time_to_die;
 	table->time_to_eat = time_to_eat;
 	table->time_to_sleep = time_to_sleep;
-	if (pthread_mutex_init(&table->write_mutex, NULL) != 0)
+	if (pthread_mutex_init(&table->write_mutex, NULL) != 0
+		|| pthread_mutex_init(&table->death_mutex, NULL) != 0)
 		return (0);
 	table->forks = init_forks(table->philos_count);
 	table->dead_philo = NULL;
@@ -37,9 +35,6 @@ int	init_table(
 		clear_table(table);
 		return (0);
 	}
-	i = -1;
-	while (++i < table->philos_count)
-		table->philos[i].write_mutex = &table->write_mutex;
 	return (1);
 }
 

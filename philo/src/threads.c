@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/01 21:40:00 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/03 02:51:28 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,17 @@ int	init_threads(
 static int	join_threads(
 	t_table *table)
 {
-	t_philo	*dead_philo;
 	size_t	i;
 
-	dead_philo = NULL;
 	i = -1;
 	while (++i < table->philos_count)
 	{
-		if (pthread_join(table->philos[i].thread, (void **)&dead_philo) != 0)
+		if (pthread_join(table->philos[i].thread, NULL) != 0)
 			return (0);
-		if (!table->dead_philo && dead_philo) //? log first death only
-			table->dead_philo = dead_philo;
 	}
 	if (table->dead_philo)
 	{
-		printf("%u\n", get_current_timestamp_ms() - dead_philo->timestamp_death);
+		printf("%u\n", get_current_timestamp_ms() - table->dead_philo->timestamp_death);
 		write_action(table->dead_philo, "has died");
 	}
 	return (1);
