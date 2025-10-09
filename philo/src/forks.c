@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:21 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/09 16:24:33 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 22:10:16 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,15 @@ void	forks_clear(
 void	forks_take(
 	t_philo *philo)
 {
-	if (philo->id % 2)
-	{
-		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
-		write_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->forks[LEFT_FORK]);
-		write_action(philo, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->forks[LEFT_FORK]);
-		write_action(philo, "has taken a fork");
-		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
-		write_action(philo, "has taken a fork");
-	}
+	pthread_mutex_lock(philo->forks[FORK_LEFT]);
+	write_action(philo, "has taken a fork");
+	pthread_mutex_lock(philo->forks[FORK_RIGHT]);
+	write_action(philo, "has taken a fork");
 }
 
 void	forks_drop(
 	t_philo *philo)
 {
-	pthread_mutex_unlock(philo->forks[LEFT_FORK]);
-	pthread_mutex_unlock(philo->forks[RIGHT_FORK]);
+	pthread_mutex_unlock(philo->forks[FORK_LEFT]);
+	pthread_mutex_unlock(philo->forks[FORK_RIGHT]);
 }

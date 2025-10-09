@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/10/03 01:33:03 by sede-san         ###   ########.fr        #
+#    Updated: 2025/10/10 08:29:36 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ifeq ($(DEBUG), lldb) # debug with LLDB
 else ifeq ($(DEBUG), address) # use AdressSanitize
 	CFLAGS += -fsanitize=address -g3
 else ifeq ($(DEBUG), thread) # use ThreadSanitize
-	CFLAGS += -fsanitize=thread -g
+	CFLAGS += -fsanitize=thread -g3
 else # apply optimization flags if no debugging is being done
 	CFLAGS += -O3
 endif

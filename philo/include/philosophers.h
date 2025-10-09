@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/09 16:25:32 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/10 02:16:03 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,43 @@ typedef struct s_philo	t_philo;
 
 typedef void			*(*t_routine_func)(void *);
 
-# define INFINITE_MEALS	-1
+# define TIME_DIE	0
+# define TIME_EAT	1
+# define TIME_SLEEP	2
+
+# define SHARED_MUTEX_WRITE	0
+# define SHARED_MUTEX_STOP	1
 
 typedef struct s_table
 {
 	size_t			philos_count;
 	t_philo			*philos;
-	pthread_t		waiter;
-	t_philo			*dead_philo;
 	pthread_mutex_t	*forks;
+	pthread_t		waiter;
 	t_mseconds		timestamp_start;
-	t_mseconds		time_to_die;	// TODO change this three into an array
-	t_mseconds		time_to_eat;	// TODO change this three into an array
-	t_mseconds		time_to_sleep;	// TODO change this three into an array
-	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	death_mutex;
+	t_mseconds		time_to[3];
+	pthread_mutex_t	shared_mutexes[2];
+	int				stop;
 }	t_table;
 
-# define LEFT_FORK	0
-# define RIGHT_FORK	1
+# define FORK_LEFT	0
+# define FORK_RIGHT	1
+
+# define INFINITE_MEALS	-1
 
 typedef struct s_philo
 {
 	unsigned int	id;
 	pthread_t		thread;
 	pthread_mutex_t	*forks[2];
+	long			meals_count;
 	t_mseconds		*timestamp_start;
 	t_mseconds		timestamp_death;
-	t_mseconds		*time_to_die;	// TODO change this three into an array
-	t_mseconds		*time_to_eat;	// TODO change this three into an array
-	t_mseconds		*time_to_sleep;	// TODO change this three into an array
-	long			meals_count;
-	pthread_mutex_t	*write_mutex;
-	pthread_mutex_t	*death_mutex;
-	t_philo			**dead_philo;
+	t_mseconds		*time_to;
+	pthread_mutex_t	*shared_mutexes;
+	int				*stop;
 }	t_philo;
+
 
 /******************************************************************************/
 /*                                 Functions                                  */
@@ -86,9 +88,9 @@ extern void				forks_drop(t_philo *philo);
 
 extern t_philo			*philos_init(t_table *table, long meals_count);
 extern void				philos_clear(t_philo *philos);
-extern int				philo_eat(t_philo *philo);
-extern int				philo_sleep(t_philo *philo);
-extern int				philo_think(t_philo *philo);
+extern void				philo_eat(t_philo *philo);
+extern void				philo_sleep(t_philo *philo);
+extern void				philo_think(t_philo *philo);
 
 // routines.c
 
@@ -96,7 +98,7 @@ extern int				philo_think(t_philo *philo);
 # define PHILO_LIVES	1
 
 extern void				*philo_routine(void *arg);
-extern int				has_starved(t_philo *philo);
+extern void				*waiter_routine(void *arg);
 
 // table.c
 
@@ -105,7 +107,8 @@ extern void				table_clear(t_table *table);
 
 // threads.c
 
-extern int				threads_init(t_table *table, t_routine_func routine);
+extern int				threads_run(t_table *table, t_routine_func philo_routine, t_routine_func waiter_routine);
+extern void				threads_stop(t_table *table);
 
 // time.c
 

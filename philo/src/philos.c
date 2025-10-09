@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/09 16:23:47 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/10 00:27:08 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,13 @@ t_philo	*philos_init(
 	{
 		philos[i].id = i + 1;
 		philos[i].timestamp_start = &table->timestamp_start;
-		philos[i].time_to_die = &table->time_to_die;
-		philos[i].time_to_eat = &table->time_to_eat;
-		philos[i].time_to_sleep = &table->time_to_sleep;
+		philos[i].time_to = table->time_to;
 		philos[i].meals_count = meals_count;
-		philos[i].write_mutex = &table->write_mutex;
-		philos[i].death_mutex = &table->death_mutex;
-		philos[i].forks[LEFT_FORK] = &table->forks[i];
-		philos[i].forks[RIGHT_FORK]
+		philos[i].shared_mutexes = table->shared_mutexes;
+		philos[i].forks[FORK_LEFT] = &table->forks[i];
+		philos[i].forks[FORK_RIGHT]
 			= &table->forks[(i + table->philos_count - 1) % table->philos_count];
-		philos[i].dead_philo = &table->dead_philo;
+		philos[i].stop = &table->stop;
 	}
 	return (philos);
 }
@@ -50,47 +47,28 @@ void	philos_clear(
 	philos = NULL;
 }
 
-int	philo_eat(
+void	philo_eat(
 	t_philo *philo)
 {
-	if (philo->forks[LEFT_FORK] == philo->forks[RIGHT_FORK])
-		msleep(philo, *philo->time_to_die);
-	if (has_starved(philo))
-		return (PHILO_DIES);
 	forks_take(philo);
-	if (has_starved(philo))
-	{
-		forks_drop(philo);
-		return (PHILO_DIES);
-	}
-	philo->timestamp_death = get_current_timestamp_ms() + *philo->time_to_die;
+	philo->timestamp_death
+		= get_current_timestamp_ms() + philo->time_to[TIME_DIE];
 	write_action(philo, "is eating");
-	if (!msleep(philo, *philo->time_to_eat))
-	{
-		forks_drop(philo);
-		return (PHILO_DIES);
-	}
+	msleep(philo, philo->time_to[TIME_EAT]);
 	forks_drop(philo);
 	if (philo->meals_count != -1)
 		philo->meals_count--;
-	return (PHILO_LIVES);
 }
 
-int	philo_sleep(
+void	philo_sleep(
 	t_philo *philo)
 {
-	if (has_starved(philo))
-		return (PHILO_DIES);
 	write_action(philo, "is sleeping");
-	msleep(philo, *philo->time_to_sleep);
-	return (PHILO_LIVES);
+	msleep(philo, philo->time_to[TIME_SLEEP]);
 }
 
-int	philo_think(
+void	philo_think(
 	t_philo *philo)
 {
-	if (has_starved(philo))
-		return (PHILO_DIES);
 	write_action(philo, "is thinking");
-	return (PHILO_LIVES);
 }
