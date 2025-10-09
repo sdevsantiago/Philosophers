@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/03 08:31:56 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:25:32 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_table
 {
 	size_t			philos_count;
 	t_philo			*philos;
+	pthread_t		waiter;
 	t_philo			*dead_philo;
 	pthread_mutex_t	*forks;
 	t_mseconds		timestamp_start;
@@ -76,39 +77,43 @@ typedef struct s_philo
 
 // forks.c
 
-pthread_mutex_t	*init_forks(size_t philos_count);
-void			clear_forks(pthread_mutex_t *forks, size_t philos_count);
-void			take_forks(t_philo *philo);
-void			drops_forks(t_philo *philo);
+extern pthread_mutex_t	*forks_init(size_t philos_count);
+extern void				forks_clear(pthread_mutex_t *forks, size_t philos_count);
+extern void				forks_take(t_philo *philo);
+extern void				forks_drop(t_philo *philo);
 
 // philos.c
 
-t_philo			*init_philos(t_table *table, long meals_count);
-void			clear_philos(t_philo *philos);
+extern t_philo			*philos_init(t_table *table, long meals_count);
+extern void				philos_clear(t_philo *philos);
+extern int				philo_eat(t_philo *philo);
+extern int				philo_sleep(t_philo *philo);
+extern int				philo_think(t_philo *philo);
 
 // routines.c
 
 # define PHILO_DIES		0
 # define PHILO_LIVES	1
 
-void			*philo_routine(void *arg);
+extern void				*philo_routine(void *arg);
+extern int				has_starved(t_philo *philo);
 
 // table.c
 
-int				init_table(t_table *table, size_t philos_count, t_mseconds time_to_die, t_mseconds time_to_eat, t_mseconds time_to_sleep, long meals_count);
-void			clear_table(t_table *table);
+extern int				table_init(t_table *table, size_t philos_count, t_mseconds time_to_die, t_mseconds time_to_eat, t_mseconds time_to_sleep, long meals_count);
+extern void				table_clear(t_table *table);
 
 // threads.c
 
-int				init_threads(t_table *table, t_routine_func routine);
+extern int				threads_init(t_table *table, t_routine_func routine);
 
 // time.c
 
-t_mseconds		get_current_timestamp_ms(void);
-int				msleep(t_philo *philo, t_mseconds msec);
+extern t_mseconds		get_current_timestamp_ms(void);
+extern int				msleep(t_philo *philo, t_mseconds msec);
 
 // write.c
 
-void			write_action(t_philo *philo, char const *action);
+extern void				write_action(t_philo *philo, char const *action);
 
 #endif /* PHILOSOPHERS_H */

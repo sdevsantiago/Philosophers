@@ -6,13 +6,13 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/03 17:03:31 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:23:47 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_philo	*init_philos(
+t_philo	*philos_init(
 	t_table *table,
 	long meals_count)
 {
@@ -43,9 +43,54 @@ t_philo	*init_philos(
 	return (philos);
 }
 
-void	clear_philos(
+void	philos_clear(
 	t_philo *philos)
 {
 	free(philos);
 	philos = NULL;
+}
+
+int	philo_eat(
+	t_philo *philo)
+{
+	if (philo->forks[LEFT_FORK] == philo->forks[RIGHT_FORK])
+		msleep(philo, *philo->time_to_die);
+	if (has_starved(philo))
+		return (PHILO_DIES);
+	forks_take(philo);
+	if (has_starved(philo))
+	{
+		forks_drop(philo);
+		return (PHILO_DIES);
+	}
+	philo->timestamp_death = get_current_timestamp_ms() + *philo->time_to_die;
+	write_action(philo, "is eating");
+	if (!msleep(philo, *philo->time_to_eat))
+	{
+		forks_drop(philo);
+		return (PHILO_DIES);
+	}
+	forks_drop(philo);
+	if (philo->meals_count != -1)
+		philo->meals_count--;
+	return (PHILO_LIVES);
+}
+
+int	philo_sleep(
+	t_philo *philo)
+{
+	if (has_starved(philo))
+		return (PHILO_DIES);
+	write_action(philo, "is sleeping");
+	msleep(philo, *philo->time_to_sleep);
+	return (PHILO_LIVES);
+}
+
+int	philo_think(
+	t_philo *philo)
+{
+	if (has_starved(philo))
+		return (PHILO_DIES);
+	write_action(philo, "is thinking");
+	return (PHILO_LIVES);
 }

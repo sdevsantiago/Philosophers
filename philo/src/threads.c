@@ -6,17 +6,17 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/03 02:51:28 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:25:39 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static int	join_threads(t_table *table);
+static int	threads_join(t_table *table);
 
-int	init_threads(
+int	threads_init(
 	t_table *table,
-	t_routine_func routine)
+	t_routine_func philo_routine)
 {
 	size_t	i;
 
@@ -25,16 +25,16 @@ int	init_threads(
 	while (++i < table->philos_count)
 	{
 		if (pthread_create(&table->philos[i].thread, NULL,
-			routine, &table->philos[i]) != 0)
+			philo_routine, &table->philos[i]) != 0)
 		{
-			clear_table(table);
+			table_clear(table);
 			return (0);
 		}
 	}
-	return (join_threads(table));
+	return (threads_join(table));
 }
 
-static int	join_threads(
+static int	threads_join(
 	t_table *table)
 {
 	size_t	i;
@@ -48,7 +48,7 @@ static int	join_threads(
 	if (table->dead_philo)
 	{
 		printf("%u\n", get_current_timestamp_ms() - table->dead_philo->timestamp_death);
-		write_action(table->dead_philo, "has died");
+		write_action(table->dead_philo, "died");
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/02 23:20:07 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:25:32 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(
 	meals_count = INFINITE_MEALS;
 	if (argv[5])
 		meals_count = ft_atol(argv[5]);
-	if (!init_table(&table,
+	if (!table_init(&table,
 			(size_t)ft_atol(argv[1]),
 			(t_mseconds)ft_atoi(argv[2]),
 			(t_mseconds)ft_atoi(argv[3]),
@@ -36,12 +36,12 @@ int	main(
 		printf("Error: %s\n", "failed to initialize table");
 		return (EXIT_FAILURE);
 	}
-	if (!init_threads(&table, philo_routine))
+	if (!threads_init(&table, philo_routine))
 	{
 		printf("Error: %s\n", "failed to run threads");
 		return (EXIT_FAILURE);
 	}
-	clear_table(&table);
+	table_clear(&table);
 	return (EXIT_SUCCESS);
 }
 

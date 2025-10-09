@@ -6,13 +6,13 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:55 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/03 02:49:09 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:13:12 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_table(
+int	table_init(
 	t_table *table,
 	size_t philos_count,
 	t_mseconds time_to_die,
@@ -27,24 +27,25 @@ int	init_table(
 	if (pthread_mutex_init(&table->write_mutex, NULL) != 0
 		|| pthread_mutex_init(&table->death_mutex, NULL) != 0)
 		return (0);
-	table->forks = init_forks(table->philos_count);
+	table->forks = forks_init(table->philos_count);
 	table->dead_philo = NULL;
-	table->philos = init_philos(table, meals_count);
+	table->philos = philos_init(table, meals_count);
 	if (!table->philos) // no need to check if forks exist
 	{
-		clear_table(table);
+		table_clear(table);
 		return (0);
 	}
 	return (1);
 }
 
-void	clear_table(
+void	table_clear(
 	t_table *table)
 {
 	if (table->forks)
-		clear_forks(table->forks, table->philos_count);
+		forks_clear(table->forks, table->philos_count);
 	if (table->philos)
-		clear_philos(table->philos);
+		philos_clear(table->philos);
 	pthread_mutex_destroy(&table->write_mutex);
+	pthread_mutex_destroy(&table->death_mutex);
 	memset(table, 0, sizeof(t_table));
 }

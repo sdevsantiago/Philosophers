@@ -6,13 +6,13 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:21 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/03 08:43:09 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:24:33 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-pthread_mutex_t	*init_forks(
+pthread_mutex_t	*forks_init(
 	size_t philos_count)
 {
 	pthread_mutex_t	*forks;
@@ -27,14 +27,14 @@ pthread_mutex_t	*init_forks(
 	{
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
-			clear_forks(forks, i);
+			forks_clear(forks, i);
 			return (NULL);
 		}
 	}
 	return (forks);
 }
 
-void	clear_forks(
+void	forks_clear(
 	pthread_mutex_t *forks,
 	size_t philos_count)
 {
@@ -43,22 +43,26 @@ void	clear_forks(
 	free(forks);
 }
 
-void	take_forks(
+void	forks_take(
 	t_philo *philo)
 {
 	if (philo->id % 2)
 	{
 		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
+		write_action(philo, "has taken a fork");
 		pthread_mutex_lock(philo->forks[LEFT_FORK]);
+		write_action(philo, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->forks[LEFT_FORK]);
+		write_action(philo, "has taken a fork");
 		pthread_mutex_lock(philo->forks[RIGHT_FORK]);
+		write_action(philo, "has taken a fork");
 	}
 }
 
-void	drops_forks(
+void	forks_drop(
 	t_philo *philo)
 {
 	pthread_mutex_unlock(philo->forks[LEFT_FORK]);
