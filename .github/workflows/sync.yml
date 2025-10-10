@@ -4,7 +4,7 @@ on:
   push:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -45,3 +45,5 @@ jobs:
           else
             echo "Submodule already up to date."
           fi
+        env:
+          SYNC_PAT: ${{ secrets.SYNC_PAT }}
