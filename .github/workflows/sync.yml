@@ -46,5 +46,3 @@ jobs:
           else
             echo "Submodule already up to date."
           fi
-        env:
-          SYNC_PAT: ${{ secrets.SYNC_PAT }}
