@@ -38,6 +38,10 @@ jobs:
       - name: Sync and commit
         run: |
           cd 42
-          git submodule sync ${{ steps.repo_name.outputs.repo_name }}
-          git commit -am "$(cd ${{ steps.repo_name.outputs.repo_name }} && git log -n 1 --format=%B)"
-          git push
+          git submodule update --remote ${{ steps.repo_name.outputs.repo_name }}
+          if ! git diff --quiet; then
+            git commit -am "$(cd ${{ steps.repo_name.outputs.repo_name }} && git log -n 1 --format=%B)"
+            git push
+          else
+            echo "Submodule already up to date."
+          fi
