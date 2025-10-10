@@ -34,11 +34,11 @@ jobs:
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
           repository: sdevsantiago/42
           path: 42
-          submodules: true
 
       - name: Sync and commit
         run: |
           cd 42
+          git submodule update --init ${{ steps.repo_name.outputs.repo_name }}
           git submodule update --remote ${{ steps.repo_name.outputs.repo_name }}
           if ! git diff --quiet; then
             git commit -am "$(cd ${{ steps.repo_name.outputs.repo_name }} && git log -n 1 --format=%B)"
