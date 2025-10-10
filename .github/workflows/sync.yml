@@ -31,6 +31,7 @@ jobs:
       - name: Checkout 42
         uses: actions/checkout@v5
         with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
           repository: sdevsantiago/42
           path: 42
           submodules: true
