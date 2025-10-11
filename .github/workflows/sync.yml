@@ -41,7 +41,7 @@ jobs:
           cd 42
           git submodule update --remote ${{ steps.repo_name.outputs.repo_name }}
           if ! git diff --quiet; then
-            git commit -am "$(cd ${{ steps.repo_name.outputs.repo_name }} && git log -n 1 --format=%B)"
+            git commit -am "[${{ steps.repo_name.outputs.repo_name }}] $(cd ${{ steps.repo_name.outputs.repo_name }} && git log -n 1 --format=%B)"
             git push
           else
             echo "Submodule already up to date."
