@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/10 02:16:03 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:59:44 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ extern void				philo_think(t_philo *philo);
 
 extern void				*philo_routine(void *arg);
 extern void				*waiter_routine(void *arg);
+extern int				philo_has_starved(t_philo *philo);
 
 // table.c
 

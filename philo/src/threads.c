@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/10 08:53:56 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:35:56 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	threads_run(
 {
 	size_t	i;
 
-	if (pthread_create(&table->waiter, NULL, waiter_routine, table) != 0)	//fix arg was being passed as NULL instead of table
-																			//bug philo 1 dies inmediately
+	if (pthread_create(&table->waiter, NULL, waiter_routine, table) != 0)
 	{
 		table_clear(table);
 		return (0);
@@ -31,7 +30,8 @@ int	threads_run(
 	table->timestamp_start = get_current_timestamp_ms();
 	while (++i < table->philos_count)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, philo_routine, &table->philos[i]) != 0)
+		if (pthread_create(&table->philos[i].thread, NULL,
+				philo_routine, &table->philos[i]) != 0)
 		{
 			table_clear(table);
 			return (0);
