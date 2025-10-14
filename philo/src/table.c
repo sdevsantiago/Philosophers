@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:55 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/10 00:27:31 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:06:52 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	table_init(
 	t_mseconds time_to_sleep,
 	long meals_count)
 {
+	memset(table, 0, sizeof(t_table));
 	table->philos_count = philos_count;
 	table->time_to[TIME_DIE] = time_to_die;
 	table->time_to[TIME_EAT] = time_to_eat;
