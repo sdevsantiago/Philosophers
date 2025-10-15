@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 20:17:41 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:28:49 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	all_philos_have_eaten(
 		if (table->philos[i].meals_count != 0)
 		{
 			pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
 	}

@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/30 20:22:21 by sede-san          #+#    #+#              #
-#    Updated: 2025/10/10 08:29:36 by sede-san         ###   ########.fr        #
+#    Updated: 2025/10/15 22:31:03 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ re: fclean all
 
 # ********************************* Libraries ******************************** #
 
-LIBS = -lpthread lib/Libft/libft.a #! Libft is here for testing purposes, remove before correction
+LIBS = -lpthread
 
 # ***************************** Style variables ****************************** #
 

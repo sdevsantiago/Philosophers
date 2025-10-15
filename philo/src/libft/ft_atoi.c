@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isupper.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 19:42:09 by sede-san          #+#    #+#             */
-/*   Updated: 2024/11/14 19:44:31 by sede-san         ###   ########.fr       */
+/*   Created: 2024/09/16 17:37:46 by sede-san          #+#    #+#             */
+/*   Updated: 2025/10/15 22:24:39 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* Checks if the passed character is uppercase.  */
-int	ft_isupper(int c)
+#include "libft.h"
+
+/* Converts a string into an integer.  */
+int	ft_atoi(const char *str)
 {
-	return (c >= 'A' && c <= 'Z');
+	return (ft_atoi_base(str, DEC_BASE));
 }

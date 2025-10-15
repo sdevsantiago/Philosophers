@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:41:11 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 20:27:54 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:01:55 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	write_action(
 	t_philo *philo,
 	char const *action)
 {
-	if (!thread_is_running(philo) && ft_strncmp(action, "has died", ft_strlen(action)) != 0)
+	if (!thread_is_running(philo) && !ft_strcmp(action, "has died"))
 		return ;
 	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_WRITE]);
 	printf("%u %u %s\n",

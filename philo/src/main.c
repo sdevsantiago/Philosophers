@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 19:09:43 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:32:58 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,10 @@ int	main(
 	char const *argv[])
 {
 	t_table	table;
-	long	meals_count;
 
 	if (!check_args(argc, argv))
 		return (EXIT_FAILURE);
-	meals_count = INFINITE_MEALS;
-	if (argv[5])
-		meals_count = ft_atol(argv[5]);
-	if (!table_init(&table,
-			(size_t)ft_atol(argv[1]),
-			(t_mseconds)ft_atoi(argv[2]),
-			(t_mseconds)ft_atoi(argv[3]),
-			(t_mseconds)ft_atoi(argv[4]),
-			meals_count))
+	if (!table_init(&table, argv))
 	{
 		printf("Error: %s\n", "failed to initialize table");
 		return (EXIT_FAILURE);
@@ -44,6 +35,8 @@ int	main(
 	table_clear(&table);
 	return (EXIT_SUCCESS);
 }
+
+static int	check_values(int argc, char const *argv[]);
 
 static int	check_args(
 	int argc,
@@ -60,20 +53,27 @@ static int	check_args(
 			"<time_to_sleep>", "[number_of_times_each_philosopher_must_eat]");
 		return (0);
 	}
-	else if (!*argv[1] || !*argv[2] || !*argv[3] || !*argv[4]
-		|| (argv[5] && !*argv[5]))
+	return (check_values(argc, argv));
+}
+
+static int	check_values(int argc, char const *argv[])
+{
+	int	i;
+
+	i = 0;
+	while (++i < argc)
 	{
-		printf("Invalid usage: %s\n", "empty arguments");
-		return (0);
-	}
-	else if ((!ft_strisnum(argv[1]) || ft_strchr(argv[1], '-') || ft_atol(argv[1]) < 1)
-		|| (!ft_strisnum(argv[2]) || ft_strchr(argv[2], '-') || ft_atoi(argv[2]) < 1)
-		|| (!ft_strisnum(argv[3]) || ft_strchr(argv[3], '-') || ft_atoi(argv[3]) < 1)
-		|| (!ft_strisnum(argv[4]) || ft_strchr(argv[4], '-') || ft_atoi(argv[4]) < 1)
-		|| (argv[5] && (!ft_strisnum(argv[5]) || ft_strchr(argv[5], '-') || ft_atol(argv[5]) < 1)))
-	{
-		printf("Invalid usage: %s\n", "arguments can't be negative or zero");
-		return (0);
+		if (argv[i] && !*argv[i])
+		{
+			printf("Invalid usage: %s\n", "empty arguments");
+			return (0);
+		}
+		else if (!ft_strisnum(argv[i]) || ft_strchr(argv[i], '-'))
+		{
+			printf("Invalid usage: %s\n",
+				"arguments can't be negative or zero");
+			return (0);
+		}
 	}
 	return (1);
 }
