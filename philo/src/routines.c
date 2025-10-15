@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 10:43:06 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:23:05 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ void	*philo_routine(
 	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
 	philo->timestamp_death = *philo->timestamp_start + philo->time_to[TIME_DIE];
 	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
-	if (!(philo->id % 2))
+	if (philo->forks[FORK_LEFT] == philo->forks[FORK_RIGHT])
+	{
+		write_action(philo, "has taken a fork");
+		msleep(philo, philo->time_to[TIME_DIE] + 1);
+	}
+	else if (!(philo->id % 2))
 		usleep(10);
 	while (!philo_has_starved(philo))
 	{
@@ -61,7 +66,6 @@ void	*waiter_routine(
 	return (NULL);
 }
 
-//todo find bug
 int	philo_has_starved(
 	t_philo *philo)
 {
