@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 12:20:17 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/09 21:17:49 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:57:26 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ int	msleep(
 	const t_mseconds	timestamp_end
 		= get_current_timestamp_ms() + msec;
 
-	(void)philo;
 	while (get_current_timestamp_ms() < timestamp_end)
 	{
-		if (usleep(500) != 0)
+		if (!thread_is_running(philo) || usleep(500) != 0)
 			return (0);
 	}
 	return (1);

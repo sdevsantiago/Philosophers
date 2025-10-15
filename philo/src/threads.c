@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 19:08:15 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:14:06 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	threads_run(
 
 	if (pthread_create(&table->waiter, NULL, waiter_routine, table) != 0)
 	{
+		threads_stop(table);
 		table_clear(table);
 		return (0);
 	}
@@ -70,4 +71,17 @@ void	threads_stop(
 	pthread_mutex_lock(&table->shared_mutexes[MUTEX_STOP]);
 	table->stop = 1;
 	pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
+}
+
+int	thread_is_running(
+	t_philo *philo)
+{
+	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
+	if (*philo->stop)
+	{
+		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
+	return (1);
 }

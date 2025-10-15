@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 18:46:21 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:17:41 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*philo_routine(
 	}
 	else if (!(philo->id % 2))
 		usleep(10);
-	while (!philo_has_starved(philo))
+	while (thread_is_running(philo))
 	{
 		philo_eat(philo);
 		philo_sleep(philo);
@@ -54,6 +54,7 @@ void	*waiter_routine(
 			if (philo_has_starved(&table->philos[i]))
 			{
 				write_action(&table->philos[i], "has died");
+				threads_stop(table);
 				return (NULL);
 			}
 		}
@@ -70,15 +71,9 @@ int	philo_has_starved(
 	t_philo *philo)
 {
 	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
-	if (*philo->stop)
-	{
-		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
-		return (1);
-	}
 	if (get_current_timestamp_ms() > philo->timestamp_death)
 	{
-		if (!*philo->stop)
-			*philo->stop = 1;
+		*philo->stop = 1;
 		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 		return (1);
 	}
