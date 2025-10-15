@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 18:23:05 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:46:21 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	philo_has_starved(
 	if (*philo->stop)
 	{
 		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
-		return (1) ;
+		return (1);
 	}
 	if (get_current_timestamp_ms() > philo->timestamp_death)
 	{

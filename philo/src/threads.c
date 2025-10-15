@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 16:40:57 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:08:15 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,21 @@ static int	threads_join(
 {
 	size_t	i;
 
-	if (pthread_detach(table->waiter) != 0)
-	{
-		threads_stop(table);
-		return (0);
-	}
 	i = -1;
 	while (++i < table->philos_count)
 	{
 		if (pthread_join(table->philos[i].thread, NULL) != 0)
+		{
+			threads_stop(table);
+			table_clear(table);
 			return (0);
+		}
+	}
+	if (pthread_join(table->waiter, NULL) != 0)
+	{
+		threads_stop(table);
+		table_clear(table);
+		return (0);
 	}
 	return (1);
 }
