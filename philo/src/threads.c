@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 18:59:56 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/13 19:35:56 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:43:06 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	threads_join(
 void	threads_stop(
 	t_table *table)
 {
-	pthread_mutex_lock(&table->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_lock(&table->shared_mutexes[MUTEX_STOP]);
 	table->stop = 1;
-	pthread_mutex_unlock(&table->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
 }

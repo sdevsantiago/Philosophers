@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 19:04:24 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/13 19:29:18 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:43:06 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,20 @@ void	philo_eat(
 	forks_take(philo);
 	if (philo->forks[FORK_LEFT] != philo->forks[FORK_RIGHT])
 	{
-		pthread_mutex_lock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
 		philo->timestamp_death
 			= get_current_timestamp_ms() + philo->time_to[TIME_DIE];
-		pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 		write_action(philo, "is eating");
 		msleep(philo, philo->time_to[TIME_EAT]);
 	}
 	else
 		msleep(philo, philo->time_to[TIME_DIE]);
 	forks_drop(philo);
-	pthread_mutex_lock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
 	if (philo->meals_count != -1)
 		philo->meals_count--;
-	pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 }
 
 void	philo_sleep(

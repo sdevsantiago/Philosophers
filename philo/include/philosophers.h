@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:57 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/11 18:59:44 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:43:07 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef void			*(*t_routine_func)(void *);
 # define TIME_EAT	1
 # define TIME_SLEEP	2
 
-# define SHARED_MUTEX_WRITE	0
-# define SHARED_MUTEX_STOP	1
+# define MUTEX_WRITE	0
+# define MUTEX_STOP	1
 
 typedef struct s_table
 {

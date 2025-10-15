@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:50:33 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/13 19:27:40 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:43:06 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	*philo_routine(
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
 	philo->timestamp_death = *philo->timestamp_start + philo->time_to[TIME_DIE];
-	pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 	if (!(philo->id % 2))
 		usleep(10);
 	while (!philo_has_starved(philo))
@@ -65,20 +65,20 @@ void	*waiter_routine(
 int	philo_has_starved(
 	t_philo *philo)
 {
-	pthread_mutex_lock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_STOP]);
 	if (*philo->stop)
 	{
-		pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 		return (1) ;
 	}
 	if (get_current_timestamp_ms() > philo->timestamp_death)
 	{
 		if (!*philo->stop)
 			*philo->stop = 1;
-		pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_STOP]);
+	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_STOP]);
 	return (0);
 }
 
@@ -90,13 +90,13 @@ static int	all_philos_have_eaten(
 	i = -1;
 	while (++i < table->philos_count)
 	{
-		pthread_mutex_lock(&table->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_lock(&table->shared_mutexes[MUTEX_STOP]);
 		if (table->philos[i].meals_count != 0)
 		{
-			pthread_mutex_unlock(&table->shared_mutexes[SHARED_MUTEX_STOP]);
+			pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
 			break;
 		}
-		pthread_mutex_unlock(&table->shared_mutexes[SHARED_MUTEX_STOP]);
+		pthread_mutex_unlock(&table->shared_mutexes[MUTEX_STOP]);
 	}
 	if (i == table->philos_count)
 		return (1);

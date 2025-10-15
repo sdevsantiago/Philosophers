@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:41:11 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/10 00:27:21 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:42:56 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	write_action(
 	t_philo *philo,
 	char const *action)
 {
-	pthread_mutex_lock(&philo->shared_mutexes[SHARED_MUTEX_WRITE]);
+	pthread_mutex_lock(&philo->shared_mutexes[MUTEX_WRITE]);
 	printf("%u %u %s\n",
 		get_current_timestamp_ms() - *philo->timestamp_start,
 		philo->id,
 		action);
-	pthread_mutex_unlock(&philo->shared_mutexes[SHARED_MUTEX_WRITE]);
+	pthread_mutex_unlock(&philo->shared_mutexes[MUTEX_WRITE]);
 }
