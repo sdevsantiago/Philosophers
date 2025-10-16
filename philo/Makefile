@@ -36,8 +36,28 @@ MAKE += --no-print-directory
 
 SRC_PATH =		src
 
-#! Indicate files before correction
-SRC =			$(shell find $(SRC_PATH) -type f -name "*.c")
+SRC =						\
+	$(SRC_PATH)/main.c		\
+	$(SRC_PATH)/forks.c		\
+	$(SRC_PATH)/philos.c	\
+	$(SRC_PATH)/routines.c	\
+	$(SRC_PATH)/table.c		\
+	$(SRC_PATH)/threads.c	\
+	$(SRC_PATH)/time.c		\
+	$(SRC_PATH)/write.c
+
+SRC_LIBFT_PATH = $(SRC_PATH)/libft
+
+SRC +=									\
+	$(SRC_LIBFT_PATH)/ft_atoi_base.c	\
+	$(SRC_LIBFT_PATH)/ft_atoi.c			\
+	$(SRC_LIBFT_PATH)/ft_atol.c			\
+	$(SRC_LIBFT_PATH)/ft_isdigit.c		\
+	$(SRC_LIBFT_PATH)/ft_isspace.c		\
+	$(SRC_LIBFT_PATH)/ft_strchr.c		\
+	$(SRC_LIBFT_PATH)/ft_strcmp.c		\
+	$(SRC_LIBFT_PATH)/ft_strisnum.c		\
+	$(SRC_LIBFT_PATH)/ft_strlen.c
 
 INCLUDE_PATH =	include
 
