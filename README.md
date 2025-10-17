@@ -58,42 +58,28 @@ For detailed info, refer to this project [subject](docs/en.subject.pdf).
 1. **Clone the repository:**
     ```bash
     git clone https://github.com/sdevsantiago/Philosophers.git
-    cd Libft
+    cd Philosophers
     ```
 
 2. **Compile the project:**
     ```bash
-    make         # Full compilation
-    make philo   # Compile mandatory only
-    make DEBUG=1 # Compile with debug flags
+    make -C philo   # Compile mandatory only
     ```
 
 3. **Clean build files:**
     ```bash
-    make clean  # Remove object files
-    make fclean # Remove all generated files
-    make re     # Rebuild everything from scratch
+    make -C philo clean  # Remove object files
+    make -C philo fclean # Remove all generated files
+    make -C philo re     # Rebuild everything from scratch
     ```
-
-#### Available Make Targets
-
-| Command | Description |
-|---------|-------------|
-| `make` | Compiles all |
-| `make all` | Same as `make` |
-| `make clean` | Remove object files (*.o) |
-| `make fclean` | Remove object files and binaries |
-| `make re` | Clean and rebuild everything |
 
 ## 👨‍💻 Usage
 
 ### Basic Usage
 
-*Not available yet.*
-
-<!--
-timeout 60s ./philo -> executes ./philo for 60s
- -->
+```bash
+./philo 10 410 200 200
+```
 
 ## 📏 Norminette
 
