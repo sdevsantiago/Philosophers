@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:51:58 by sede-san          #+#    #+#             */
-/*   Updated: 2025/10/15 22:32:58 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/10/17 19:59:38 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static int	check_values(int argc, char const *argv[])
 			printf("Invalid usage: %s\n", "empty arguments");
 			return (0);
 		}
-		else if (!ft_strisnum(argv[i]) || ft_strchr(argv[i], '-'))
+		else if (!ft_strisnum(argv[i])
+			|| ft_strchr(argv[i], '-')
+			|| ((i == 0 || i == 5) && ft_atol(argv[i]) <= 0)
+			|| ((i > 0 && i < 5) && ft_atoi(argv[i]) <= 0))
 		{
 			printf("Invalid usage: %s\n",
 				"arguments can't be negative or zero");
