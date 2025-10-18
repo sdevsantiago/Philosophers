@@ -2,7 +2,7 @@
 
   <!-- Project badge -->
   <a href=".">
-    <img src="assets/README/philosophersn.png">
+    <img src="assets/README/philosopherse.png">
   </a>
 
   <!-- Project name -->
@@ -12,8 +12,7 @@
   <p>The classic Dining Philosophers problem in C.</p>
 
   <!-- Info badges -->
-  <img src="https://img.shields.io/badge/Score-No-black?style=for-the-badge&labelColor=black" alt="Score">
-  <!-- <img src="https://img.shields.io/badge/Score-100%2F100-brightgreen?style=for-the-badge&labelColor=black" alt="Score"> -->
+  <img src="https://img.shields.io/badge/Score-100%2F100-brightgreen?style=for-the-badge&labelColor=black" alt="Score">
   <img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge&labelColor=black" alt="Language">
   <br>
   <img src="https://img.shields.io/github/last-commit/sdevsantiago/Philosophers?display_timestamp=committer&style=for-the-badge&labelColor=black" alt="Last commit">
